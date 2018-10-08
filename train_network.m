@@ -1,10 +1,10 @@
 %function that accepts parameters architecture (associative memory + classification or only classification)
 function [] = train_network(architecture, fun)
 
-%P is a matrix of test inputs
-%T is a target matrix [256, 500]
-%T1 is a target matrix [10, 500]
-load('P_final.mat');
+%P is a matrix of test inputs [256, 1000]
+%T is a target matrix [256, 1000]
+%T1 is a target matrix [10, 1000]
+load('P_1000.mat');
 load('T.mat');
 load('T1.mat');
 
@@ -15,8 +15,8 @@ load('T1.mat');
         %calculate weights and multiply weights with inputs 
         %T = target matrix
         %P = inputs(training set)
-        W = T * pinv(P)
-        P2 = W * P
+        W = T * pinv(P_1000)
+        P2 = W * P_1000
         
         %start training net
         net = perceptron;
@@ -74,7 +74,7 @@ load('T1.mat');
         
         %start training net
         net = perceptron;
-        net = configure(net,P,T1);
+        net = configure(net,P_1000,T1);
         
         net.IW{1,1} = rand(10,256); %generates random matrix
         net.b{1,1} = rand(10,1);
@@ -86,7 +86,7 @@ load('T1.mat');
             
             net.performFcn ='sse';
       
-            [net,tr]=train(net, P, T1);
+            [net,tr]=train(net, P_1000, T1);
 
             trainedHardlim = net;
             
@@ -101,7 +101,7 @@ load('T1.mat');
             net.trainFcn = 'traingd';
             net.performFcn = 'mse';
             
-            [net,tr] = train(net, P, T1);
+            [net,tr] = train(net, P_1000, T1);
             
             trainedLinear = net
             
@@ -117,7 +117,7 @@ load('T1.mat');
             
             net.performFcn = 'mse';
             
-            [net, tr]=train(net, P, T1);
+            [net, tr]=train(net, P_1000, T1);
             
             trainedSigmoid = net;
             
